@@ -25,9 +25,15 @@ const FavoriteScreen = ({navigation}: any) => {
 
   if (products.length === 0) {
     return (
-      <View style={{flex:1,justifyContent:"center"}}>
+      <View style={{alignItems: 'center'}}>
+        <View style={styles.header}>
+        <Text style={[styles.headerText,{marginTop:25}]}>Favorites</Text>
+      </View>
+        <Image source={require('../images/Sally-4.png')} />
         <View style={styles.centerContainer}>
           <Text style={styles.noItemsText}>No Favorites Yet</Text>
+          <Text style={{color: 'black',fontFamily:"Raleway-Medium",marginTop:15}}>Hit the orange button down</Text>
+          <Text style={{color: 'black',fontFamily:"Raleway-Medium", marginBottom:15}}>below to Create an order</Text>
         </View>
         <Pressable style={styles.button} onPress={() => navigation.goBack()}>
           <Text style={styles.buttonText}>Start Ordering</Text>
@@ -38,13 +44,18 @@ const FavoriteScreen = ({navigation}: any) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Favorites</Text>
+      </View>
       <FlatList
         data={products}
-        renderItem={({item}:any) => {
+        renderItem={({item}: any) => {
           return (
-            <Pressable 
-            onPress={()=>navigation.navigate('ProductDetail',{id: item.id})}
-            style={styles.item}>
+            <Pressable
+              onPress={() =>
+                navigation.navigate('ProductDetail', {id: item.id})
+              }
+              style={styles.item}>
               <Image
                 source={{uri: `${item.image}`}}
                 style={{
@@ -118,15 +129,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 15,
   },
-  button:{
-    alignItems:"center",
-    marginTop:10,
-    backgroundColor:"#5956E9",
-    marginHorizontal:80,
-    padding:15,
-    borderRadius:10
+  button: {
+    alignItems: 'center',
+    marginTop: 10,
+    backgroundColor: '#5956E9',
+    marginHorizontal: 80,
+    padding: 15,
+    paddingHorizontal:40,
+    borderRadius: 10,
   },
-  buttonText:{
-    color:'#fff',
-  }
+  buttonText: {
+    color: '#fff',
+    fontFamily:"Raleway-Bold"
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom:25
+  },
+  headerText: {
+    color: 'black',
+    fontFamily: 'Raleway-Bold',
+    fontSize: 30,
+  },
+  
 });

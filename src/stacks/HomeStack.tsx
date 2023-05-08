@@ -2,10 +2,11 @@ import {View, Text, TextInput, StyleSheet, FlatList, Image, Pressable} from 'rea
 import {useEffect, useState} from 'react';
 import axios from 'axios';
 import React from 'react';
+import SearchIcon from '../images/SearchIcon'
 
 const HomeStack = ({navigation}:any) => {
-  const [products, setProducts] = useState([]);
-  const [originalProducts, setOriginalProducts] = useState([]);
+  const [products, setProducts] = useState<any>([]);
+  const [originalProducts, setOriginalProducts] = useState<any>([]);
 
   useEffect(() => {
     axios
@@ -17,7 +18,7 @@ const HomeStack = ({navigation}:any) => {
   }, []);
 
   const search = ({value}: any) => {
-    let filteredProducts = originalProducts.filter(item =>
+    let filteredProducts = originalProducts.filter((item:any) =>
       item.brand.toLowerCase().includes(value.toLowerCase()),
     );
     setProducts([...filteredProducts]);
@@ -88,6 +89,9 @@ const HomeStack = ({navigation}:any) => {
           style={{color: 'black'}}
           onChangeText={value => search({value})}
         />
+        <View style={{position:"absolute",left:15,top:16}}>
+        <SearchIcon />
+        </View>
       </View>
       <View style={styles.header}>
         <Text style={styles.headerText}>Order Online</Text>
@@ -114,7 +118,7 @@ const styles = StyleSheet.create({
     marginTop: 46,
     marginHorizontal: 18,
     borderRadius: 30,
-    paddingHorizontal:10,
+    paddingLeft:45,
     paddingVertical:5
   },
   headerText: {

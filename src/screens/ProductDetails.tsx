@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -7,20 +7,23 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import { Arrow, Path33961 } from '../images';
+import {Arrow, Path33961} from '../images';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect } from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 
-const ProductDetails = ({ navigation, route }:any) => {
+const ProductDetails = ({navigation, route}: any) => {
   const [product, setProduct] = useState<any>({});
   const [existProduct, setExistProduct] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const { id } = route.params;
+  const {id} = route.params;
 
   useEffect(() => {
-    axios.get(`https://64450603914c816083c4251c.mockapi.io/appoinmet/products/${id}`)
+    axios
+      .get(
+        `https://64450603914c816083c4251c.mockapi.io/appoinmet/products/${id}`,
+      )
       .then(res => {
         setProduct(res.data);
       });
@@ -36,7 +39,6 @@ const ProductDetails = ({ navigation, route }:any) => {
     });
   });
 
-
   const addFavorite = async () => {
     const favoriteProduct = {
       id: id,
@@ -49,18 +51,54 @@ const ProductDetails = ({ navigation, route }:any) => {
     AsyncStorage.getItem('favorite').then(data => {
       let favorites = JSON.parse(data ?? '[]');
 
-      const existingProduct = favorites.find(item => item.id === id);
-      if (existingProduct) {
-        alert('Product already exists in favorites');
+      const existingProductIndex = favorites.find(item => item.id == id);
+      if (existingProductIndex) {
+        let updatedFavorites = favorites.filter(product => product.id != id);
+        AsyncStorage.setItem('favorite', JSON.stringify(updatedFavorites)).then(
+          () => {
+            setIsFavorite(false);
+          },
+        );
       } else {
         AsyncStorage.setItem(
           'favorite',
-          JSON.stringify([...favorites, favoriteProduct])
+          JSON.stringify([...favorites, favoriteProduct]),
         ).then(() => {
           setIsFavorite(true);
         });
       }
     });
+  };
+
+  const handleAddBasket = async () => {
+    let basket: any = await AsyncStorage.getItem('basket');
+    // AsyncStorage.clear()
+
+    if (!basket) {
+      basket = [];
+      let basketItem = {
+        product: product,
+        count: 1,
+      };
+      basket.push(basketItem);
+      await AsyncStorage.setItem('basket', JSON.stringify(basket));
+    } else {
+      let parsedData = JSON.parse(basket);
+      let basketItem = parsedData.find(
+        (item: any) => item.product.id === product.id,
+      );
+      if (basketItem) {
+        basketItem.count++;
+        await AsyncStorage.setItem('basket', JSON.stringify(parsedData));
+      } else {
+        let basketItem = {
+          product: product,
+          count: 1,
+        };
+        parsedData.push(basketItem);
+        await AsyncStorage.setItem('basket', JSON.stringify(parsedData));
+      }
+    }
   };
 
   return (
@@ -72,7 +110,6 @@ const ProductDetails = ({ navigation, route }:any) => {
         <Pressable onPress={() => addFavorite()}>
           <Path33961 filled={isFavorite} />
         </Pressable>
-
       </View>
       <View style={styles.image}>
         <Image
@@ -129,7 +166,9 @@ const ProductDetails = ({ navigation, route }:any) => {
       </View>
       <View style={styles.addButton}>
         <TouchableOpacity style={{alignItems: 'center'}}>
-          <Text style={styles.buttonText}>Add to basket</Text>
+          <Text style={styles.buttonText} onPress={handleAddBasket}>
+            Add to basket
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
