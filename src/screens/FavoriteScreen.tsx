@@ -42,7 +42,9 @@ const FavoriteScreen = ({navigation}: any) => {
         data={products}
         renderItem={({item}:any) => {
           return (
-            <View style={styles.item}>
+            <Pressable 
+            onPress={()=>navigation.navigate('ProductDetail',{id: item.id})}
+            style={styles.item}>
               <Image
                 source={{uri: `${item.image}`}}
                 style={{
@@ -76,7 +78,7 @@ const FavoriteScreen = ({navigation}: any) => {
                   Delete
                 </Text>
               </Pressable>
-            </View>
+            </Pressable>
           );
         }}
         keyExtractor={item => item.id}
