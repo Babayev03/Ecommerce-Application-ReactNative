@@ -15,29 +15,26 @@ const Home = ({}) => {
 
   return (
     <>
-      <Tab.Navigator
-        tabBarOptions={{
-          showLabel: false,
-        }}>
+      <Tab.Navigator>
         <Tab.Screen
           name="HomeStack"
           component={HomeStack}
-          options={{headerShown: false, tabBarIcon: () => <HomeImage />}}
+          options={{tabBarShowLabel:false,headerShown: false, tabBarIcon: ({focused}:any) => <HomeImage fill={focused?"#5956E9":"white"} stroke={focused?"#5956E9":"black"}/>}}
         />
         <Tab.Screen
           name="Favorite"
           component={FavoriteScreen}
-          options={{headerShown: false, tabBarIcon: () => <Path33961 />}}
+          options={{tabBarShowLabel:false,headerShown: false, tabBarIcon: ({focused}) => <Path33961 filled={focused} />}}
         />
         <Tab.Screen
           name="Profile"
           component={ProfileScreen}
-          options={{headerShown: false, tabBarIcon: () => <Profile />}}
+          options={{tabBarShowLabel:false,headerShown: false, tabBarIcon: ({focused}) => <Profile  fill={focused?"#5956E9":"white"} stroke={focused?"#5956E9":"black"}/>}}
         />
         <Tab.Screen
           name="Cart"
           component={CartScreen}
-          options={{headerShown: false, tabBarIcon: () => <Buy />}}
+          options={{tabBarShowLabel:false,headerShown: false, tabBarIcon: ({focused}) => <Buy  fill={focused?"#5956E9":"white"} stroke={focused?"#5956E9":"black"}/>}}
         />
       </Tab.Navigator>
     </>

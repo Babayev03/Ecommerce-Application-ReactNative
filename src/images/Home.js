@@ -15,7 +15,7 @@ const SvgHome = props => (
       clipRule="evenodd"
     />
     <Path
-      stroke="black"
+      // stroke="black"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}

@@ -12,13 +12,13 @@ const SvgProfile = props => (
       cx={11.579}
       cy={7.278}
       r={4.778}
-      stroke="#200E32"
+      // stroke="#200E32"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
     />
     <Path
-      stroke="#200E32"
+      // stroke="#200E32"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
